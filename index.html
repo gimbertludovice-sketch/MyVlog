@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gimbert Ludovice - Developer Space</title>
+    <style>
+        /* --- MINIMALIST DESIGN SYSTEM --- */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --bg-color: #ffffff;
+            --text-main: #1a1a1a;
+            --text-muted: #64748b;
+            --accent-blue: #2563eb;
+            --accent-hover: #1d4ed8;
+            --border-light: #e2e8f0;
+            --card-bg: #ffffff;
+            --font-stack: 'Inter', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-stack);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* --- STICKY NAV HEADER --- */
+        header {
+            border-bottom: 1px solid var(--border-light);
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 75px;
+        }
+
+        .brand-logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            cursor: pointer;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .brand-logo span {
+            color: var(--accent-blue);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 28px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        nav ul li a:hover, nav ul li a.active-link {
+            color: var(--text-main);
+        }
+
+        /* --- HERO INTRODUCTION PROFILE --- */
+        .hero-profile {
+            text-align: center;
+            padding: 50px 0 30px 0;
+        }
+
+        /* Profile picture container using CSS to isolate the image layout safely */
+        .profile-frame {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 20px auto;
+            overflow: hidden;
+            border: 2px solid var(--border-light);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            background-color: #f1f5f9;
+        }
+
+        .profile-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 15%;
+        }
+
+        .hero-profile h1 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-profile p {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        /* --- RESPONSIVE APP SPLIT VIEW --- */
+        .app-workspace {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 45px;
+            padding-bottom: 80px;
+        }
+
+        .feed-heading-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 8px;
+            font-weight: 600;
+        }
+
+        /* --- ARTICLE POST CARDS --- */
+        .post-card {
+            background: var(--card-bg);
+            margin-bottom: 45px;
+            cursor: pointer;
+        }
+
+        .post-banner-placeholder {
+            width: 100%;
+            height: 260px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            background-color: #f8fafc;
+            border: 1px solid var(--border-light);
+        }
+
+        .post-banner-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .post-card:hover .post-banner-placeholder img {
+            transform: scale(1.02);
+        }
+
+        .post-meta {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--accent-blue);
+        }
+
+        .post-date {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-left: 6px;
+        }
+
+        .post-card h2 {
+            font-size: 1.45rem;
+            margin: 8px 0;
+            letter-spacing: -0.3px;
+            color: var(--text-main);
+        }
+
+        .post-card:hover h2 {
+            color: var(--accent-blue);
+        }
+
+        .post-excerpt {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* --- SIDEBAR APP MODULES --- */
+        .sidebar-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .sidebar-widget {
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 24px;
+            background: #ffffff;
+        }
+
+        .sidebar-widget h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-widget p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .widget-field {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            outline: none;
+            margin-bottom: 10px;
+            font-family: var(--font-stack);
+        }
+
+        .widget-field:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .widget-btn {
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 11px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-family: var(--font-stack);
+            transition: background-color 0.2s ease;
+        }
+
+        .widget-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* Topic tags block */
+        .tags-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .topic-pill {
+            background: #f8fafc;
+            border: 1px solid var(--border-light);
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-weight: 500;
+        }
+
+        .topic-pill:hover, .topic-pill.pill-active {
+            background: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+        }
+
+        /* --- FOOTER IDENTITY BANNER --- */
+        footer {
+            border-top: 1px solid var(--border-light);
+            padding: 35px 0;
+            background: #f8fafc;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .app-workspace {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-container">
+            <a class="brand-logo" onclick="resetAppHome()">Gimbert<span>Notes.</span></a>
+            <nav>
+                <ul>
+                    <li><a class="active-link" onclick="routeView('home', this)">Home</a></li>
+                    <li><a onclick="routeView('articles', this)">Articles</a></li>
+                    <li><a onclick="routeView('about', this)">About</a></li>
+                    <li><a onclick="routeView('contact', this)">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="container hero-profile">
+        <div class="profile-frame">
+            <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&auto=format&fit=crop&q=80" alt="Gimbert Ludovice Portrait">
+        </div>
+        <h1 id="dyn-hero-title">Hi, I'm Gimbert. Welcome to my space.</h1>
+        <p id="dyn-hero-desc">I am a first-year BSIT student focused on mobile and web development. Passionate about building clean, accessible, and functional websites using modern web technologies.</p>
+    </section>
+
+    <main class="container app-workspace" id="app-split-container">
+        
+        <div id="feed-column-wrapper">
+            <div class="feed-heading-label" id="current-feed-label">Latest Stories</div>
+            <div id="dynamic-posts-target">
+                </div>
+        </div>
+
+        <div class="sidebar-panel">
+            <div class="sidebar-widget">
+                <h3>Newsletter</h3>
+                <p>Get monthly insights on tech, productivity, and layout straight to your inbox.</p>
+                <div>
+                    <input type="email" id="subscr-email-input" class="widget-field" placeholder="Your email address">
+                    <button class="widget-btn" onclick="executeNewsletterSubmission()">Subscribe</button>
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3>Explore Topics</h3>
+                <div class="tags-wrapper" id="tags-cloud-target">
+                    </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 <strong>Gimbert Ludovice</strong> | Section: <a href="https://classroom.google.com/u/0/c/ODYyOTIzMzQ1OTgx" target="_blank">WITMWD1M1-S</a></p>
+            <p style="font-size: 0.75rem; margin-top: 4px; color: #94a3b8;">BSIT Specialized in Mobile and Website Development • Trimex Colleges Matrix Hub</p>
+        </div>
+    </footer>
+
+    <script>
+        // Content Database Store 
+        const postsCollection = [
+            {
+                id: 101,
+                tag: "Web Dev",
+                date: "June 24, 2026",
+                title: "Building Accessible UI Systems in 2026",
+                excerpt: "Accessibility shouldn't be an afterthought. This deep dive details how we can leverage modern native HTML elements and CSS properties to build smooth components without code bloat...",
+                imgUrl: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=600&auto=format&fit=crop&q=80"
+            },
+            {
+                id: 102,
+                tag: "Design",
+                date: "June 15, 2026",
+                title: "The Art of Analog Thinking in a Digital World",
+                excerpt: "Sometimes screens create a barrier between your mind and your best ideas. Here is why I switched back to a physical paper journal for daily brainstorming sessions...",
+                imgUrl: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&auto=format&fit=crop&q=80"
+            },
+            {
+                id: 103,
+                tag: "Productivity",
+                date: "May 29, 2026",
+                title: "Optimizing Your Mobile Code Sandboxes",
+                excerpt: "Testing mobile viewports directly inside cloud compilation pipelines requires crisp setups. We break down standard responsive grid systems architectures...",
+                imgUrl: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop&q=80"
+            }
+        ];
+
+        const filterTagsList = ["Web Dev", "Design", "Productivity", "CSS", "Minimalism"];
+        let baseWorkspaceHtml = "";
+
+        // Application Lifecycle Engine Initialization
+        window.onload = function() {
+            baseWorkspaceHtml = document.getElementById('app-split-container').innerHTML;
+            renderArticlesList(postsCollection);
+            populateTagCloud();
+        };
+
+        function renderArticlesList(targetData) {
+            const container = document.getElementById("dynamic-posts-target");
+            container.innerHTML = "";
+
+            if(targetData.length === 0) {
+                container.innerHTML = `<p style="color:var(--text-muted); padding:20px 0; font-size:0.9rem;">No entries found matching the requested topic parameter filter.</p>`;
+                return;
+            }
+
+            targetData.forEach(post => {
+                const div = document.createElement("article");
+                div.className = "post-card";
+                div.onclick = () => openExtendedArticle(post.id);
+                div.innerHTML = `
+                    <div class="post-banner-placeholder">
+                        <img src="${post.imgUrl}" alt="${post.title}">
+                    </div>
+                    <div>
+                        <span class="post-meta">${post.tag}</span>
+                        <span class="post-date">• ${post.date}</span>
+                        <h2>${post.title}</h2>
+                        <p class="post-excerpt">${post.excerpt}</p>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function populateTagCloud() {
+            const box = document.getElementById("tags-cloud-target");
+            box.innerHTML = "";
+            filterTagsList.forEach(tag => {
+                const btn = document.createElement("button");
+                btn.className = "topic-pill";
+                btn.innerText = tag;
+                btn.onclick = () => executeTagFiltering(tag, btn);
+                box.appendChild(btn);
+            });
+        }
+
+        // Functional Interactions Engines
+        function executeTagFiltering(selectedTag, htmlNodeElement) {
+            const isActive = htmlNodeElement.classList.contains("pill-active");
+            document.querySelectorAll(".topic-pill").forEach(p => p.classList.remove("pill-active"));
+
+            if(isActive) {
+                document.getElementById("current-feed-label").innerText = "Latest Stories";
+                renderArticlesList(postsCollection);
+            } else {
+                htmlNodeElement.classList.add("pill-active");
+                document.getElementById("current-feed-label").innerText = `Filtered Category: "${selectedTag}"`;
+                
+                const matches = postsCollection.filter(p => p.tag.toLowerCase() === selectedTag.toLowerCase());
+                renderArticlesList(matches);
+            }
+        }
+
+        function executeNewsletterSubmission() {
+            const inputField = document.getElementById("subscr-email-input");
+            const valueString = inputField.value.trim();
+
+            if(!valueString || !valueString.includes("@")) {
+                alert("Form processing error: Please enter a structurally valid email string configuration.");
+                return;
+            }
+            alert(`Success Transmission Secure!\nEmail parameter payload ("${valueString}") appended to Gimbert Ludovice's system architecture data index list.`);
+            inputField.value = "";
+        }
+
+        function openExtendedArticle(articleId) {
+            const entry = postsCollection.find(p => p.id === articleId);
+            if(!entry) return;
+
+            const feedColumn = document.getElementById("feed-column-wrapper");
+            feedColumn.innerHTML = `
+                <button class="topic-pill" style="margin-bottom:20px; background:#1a1a1a; color:#fff;" onclick="restoreFeedState()">&larr; Return to Dashboard Feed</button>
+                <div class="post-banner-placeholder" style="height:320px;">
+                    <img src="${entry.imgUrl}" alt="${entry.title}">
+                </div>
+                <span class="post-meta">${entry.tag}</span><span class="post-date">• ${entry.date}</span>
+                <h1 style="font-size:2rem; margin:12px 0; letter-spacing:-0.5px;">${entry.title}</h1>
+                <p style="font-size:1.05rem; line-height:1.8; margin-bottom:15px; color:#334155;">${entry.excerpt} This single-page data view rendering has been dynamically mounted on the interface model without requesting a secondary full web browser document loop iteration.</p>
+                <p style="font-size:0.95rem; color:var(--text-muted);">Author Core Signature Credentials Token: Gimbert Ludovice [WITMWD1M1-S] / BSIT Mobile and Web Dev specialist terminal verified entry parameters.</p>
+            `;
+            window.scrollTo({top: 180, behavior: 'smooth'});
+        }
+
+        function restoreFeedState() {
+            document.getElementById('app-split-container').innerHTML = baseWorkspaceHtml;
+            renderArticlesList(postsCollection);
+            populateTagCloud();
+            document.querySelectorAll("nav ul li a").forEach(l => l.classList.remove("active-link"));
+            document.querySelectorAll("nav ul li a")[0].classList.add("active-link");
+
+            document.getElementById("dyn-hero-title").innerText = "Hi, I'm Gimbert. Welcome to my space.";
+            document.getElementById("dyn-hero-desc").innerText = "I am a first-year BSIT student focused on mobile and web development. Passionate about building clean, accessible, and functional websites using modern web technologies.";
+        }
+
+        function resetAppHome() {
+            restoreFeedState();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // Layout View Model View Switching Router
+        function routeView(targetId, navLinkElement) {
+            document.querySelectorAll("nav ul li a").forEach(l => l.classList.remove("active-link"));
+            navLinkElement.classList.add("active-link");
+
+            // Restore framework markup context
+            document.getElementById('app-split-container').innerHTML = baseWorkspaceHtml;
+            populateTagCloud();
+
+            const feedColumn = document.getElementById("feed-column-wrapper");
+            const headTitle = document.getElementById("dyn-hero-title");
+            const headDesc = document.getElementById("dyn-hero-desc");
+
+            if(targetId === 'home') {
+                headTitle.innerText = "Hi, I'm Gimbert. Welcome to my space.";
+                headDesc.innerText = "I am a first-year BSIT student focused on mobile and web development. Passionate about building clean, accessible, and functional websites using modern web technologies.";
+                renderArticlesList(postsCollection);
+            } 
+            else if(targetId === 'articles') {
+                headTitle.innerText = "My Curated Technical Writing Logs";
+                headDesc.innerText = "Compilations concerning web standardizations architectures, clean UI design grids layout, and native JavaScript system code engines.";
+                renderArticlesList(postsCollection);
+            } 
+            else if(targetId === 'about') {
+                headTitle.innerText = "About Me";
+                headDesc.innerText = "Student developer academic parameters dashboard summary layout profile matrix.";
+                
+                feedColumn.innerHTML = `
+                    <div class="feed-heading-label">Student Profile Metadata</div>
+                    <div style="background:#f8fafc; padding:30px; border-radius:8px; border:1px solid var(--border-light)">
+                        <h2 style="margin-bottom:12px; font-size:1.5rem;">Gimbert Ludovice</h2>
+                        <p style="font-size:0.95rem; margin-bottom:15px; color:#334155;">Hi! My name is <strong>Gimbert Ludovice</strong> and I am a current first-year college student with a passion for technology, website building, and problem-solving. I enjoy learning new things every day and I believe that education is the key to achieving my dreams. I am hardworking, curious, and always ready to take on new challenges.</p>
+                        
+                        <div style="margin-top:20px; display:grid; gap:10px; font-size:0.9rem; border-top:1px dashed #cbd5e1; padding-top:15px;">
+                            <div><strong style="color:var(--accent-blue);">Program Track:</strong> BSIT Specialized Mobile and Website Development</div>
+                            <div><strong style="color:var(--accent-blue);">Section Code Instance:</strong> <a href="https://classroom.google.com/u/0/c/ODYyOTIzMzQ1OTgx" target="_blank" style="text-decoration:underline;">WITMWD1M1-S (Google Classroom Hub)</a></div>
+                            <div><strong style="color:var(--accent-blue);">Campus Branch:</strong> Trimex Colleges</div>
+                        </div>
+                    </div>
+                `;
+            } 
+            else if(targetId === 'contact') {
+                headTitle.innerText = "Establish Terminal Communications";
+                headDesc.innerText = "Dispatched packet streams to my personal data network points endpoints instantly.";
+                
+                feedColumn.innerHTML = `
+                    <div class="feed-heading-label">Direct Communication Gateway</div>
+                    <div style="border:1px solid var(--border-light); padding:25px; border-radius:8px; display:flex; flex-direction:column; gap:16px;">
+                        <div>
+                            <span style="font-size:0.75rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); display:block;">Email Target Vector Route:</span>
+                            <a href="mailto:gimbertludovice@student.trimexcolleges.edu.ph" style="color:var(--accent-blue); font-size:1rem; font-weight:500; text-decoration:none;">gimbertludovice@student.trimexcolleges.edu.ph</a>
+                        </div>
+                        <div style="border-top:1px solid var(--border-light); padding-top:15px;">
+                            <span style="font-size:0.75rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); display:block;">Direct Mobile Endpoint:</span>
+                            <span style="font-size:1rem; font-weight:600; color:var(--text-main);">09543618684</span>
+                        </div>
+                        <div style="border-top:1px solid var(--border-light); padding-top:15px; display:flex; flex-direction:column; gap:10px;">
+                            <span style="font-size:0.75rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); display:block;">Transmission Message Payload:</span>
+                            <input type="text" id="contact-subj-input" class="widget-field" placeholder="Header Reference Topic Name String">
+                            <textarea id="contact-body-input" class="widget-field" style="min-height:90px; resize:vertical;" placeholder="Write message framework block here..."></textarea>
+                            <button class="widget-btn" onclick="transmitGatewayMessage()">Send Message Stream Packet</button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function transmitGatewayMessage() {
+            const h = document.getElementById("contact-subj-input").value.trim();
+            const b = document.getElementById("contact-body-input").value.trim();
+
+            if(!h || !b) {
+                alert("Data handling failure: Form execution rejected. Input subject header parameters fields are empty.");
+                return;
+            }
+            alert(`Packet Process Output: Dispatched Successfully!\nYour message stream data block has been packed and safely initialized to student target link route:\ngimbertludovice@student.trimexcolleges.edu.ph`);
+            document.getElementById("contact-subj-input").value = "";
+            document.getElementById("contact-body-input").value = "";
+        }
+    </script>
+</body>
+</html>
